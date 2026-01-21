@@ -143,7 +143,7 @@ function draw() {
 
     stroke(0, 50, 60);
 
-    bezier(xpos+innerHeight * 0.75, 0 + i, 410, 80, 440, 300, 240 - i / 16, 300 + i / 8);
+    bezier(xpos+innerHeight * 1, 0 + i, 800, 600, 600, 600, 600 / 16, 300 +  innerHeight/ 8);
   //} // uncomment pls //////////////////
 
 
