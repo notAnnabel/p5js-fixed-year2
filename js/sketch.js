@@ -8,19 +8,48 @@ const CCDIAL1 = 35;
 const CCDIAL2 = 34;
 const CCDIAL3 = 33;
 const CCDIAL4 = 32;
+
 let myController;
-let size, r = 0, g = 0, b = 0, a = 0, strokew;
+let size, r = 100, g = 25, b = 137, a = 0, strokew;
 let bgr, bgg, bgb, bga;
+
+xpos = 0;
+
+/* raindrops
+const amount = 50;
+const radius = 4;
+const speed = 8;
+
+
+let drops = [];*/
+
+
 //////////////////////////
 // built in P5 function gets called at the beginning
 function setup() {
     createCanvas(innerWidth, innerHeight);
+    //angleMode(DEGREES);
+    //createPattern(257, 0.8, 180);
+    frameRate(30);
+
     background(0);
     WebMidi
         .enable()
         .then(onEnabled)
         .catch(err => alert(err));
 }
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+
+    drops.forEach((drop, key) => {
+        drop.x = key * (windowWidth / amount);
+    });
+}
+
+
+
+
 // gets called by MIDI library once MIDI enabled
 function onEnabled() {
     // Display available MIDI input devices
@@ -48,8 +77,10 @@ function allCC(e) {
             stroke = 20 * ratio;
             break;
         case CCSLIDER3:
+            frameRate(50 * 0.5 * ratio)
             break;
         case CCSLIDER4:
+            xpos = innerWidth/2 * ratio;
             break;
         case CCDIAL1:
             bga = 255 * ratio;
@@ -61,7 +92,7 @@ function allCC(e) {
             bgg = 255 * ratio;
             break;
         case CCDIAL4:
-            b = 255 * ratio;
+            bgb = 255 * ratio;
             break;
     }
 }
@@ -78,8 +109,12 @@ function drawShape(x, y) {
     console.log(r, g, b, a);
     circle(x, y, size);
 }
+
+
+
+
 function draw() {
-    
+
     background(bgr, bgg, bgb, bga);
     fillGradient('linear', {
         from: [0, 0],   // x, y : Coordinates
@@ -90,9 +125,94 @@ function draw() {
             color(227, 190, 111)
         ] // Array of p5.color objects or arrays containing [p5.color Object, Color Stop (0 to 1)]
     });
+
+
     for (let i = 0; i < 100; i++) {
         //tint(r, g, b);
-        drawShape(random(width), random(height));
-    };
-}
+        drawShape(random(width), random(height))
 
+
+    /*for (let i = 0; i < 200; i += 20) { /////////////////////////////
+    // Add 10 to the line's hue value during
+    // each iteration.
+    noFill();
+    strokeWeight(2);
+    strokeColor = i + 10;
+
+    stroke(strokeColor, 50, 60);
+
+    bezier(xpos- i / 2, 0 + i, 410, 20, 440, 300, 240 - i / 16, 300 + i / 8);
+  }*/ // uncomment pls //////////////////
+
+
+
+       /* drops.forEach(drop => {
+            fill(255, 255, 255, drop.opacity);
+            noStroke();
+            ellipse(drop.x, drop.y, radius, radius);
+
+            drop.y += drop.speed;
+            drop.opacity -= 1;
+
+            if (drop.y > windowHeight) {
+                drop.y = random(0, 50);
+                drop.opacity = 255;
+            }
+        });
+    }
+
+
+    for (i = 0; i < amount + 1; i++) {
+        drops.push({
+            x: i * (innerWidth / amount),
+            y: random(0, innerHeight),
+            speed: speed * (Math.random() + 0.8),
+            opacity: 255
+        });
+    }*/
+    //createPattern();
+    // createPattern(257,0.8,180);
+}
+};
+
+
+/*function createPattern(startColour) {
+
+    var length = 0; //Length of line drawn
+    var step = round(random(360)); //Degree to turn
+    var colour = round(random(360)); //Start colour of HSL loop
+
+    var rotationAngle = 0; //Actual angle relative to origin (derived from colour)
+    var magnify = height / 500; //Decrease in length (will change overall size)
+
+    var oldX = width / 2; //Original x coordinate for line
+    var oldY = height / 2; //Original y coordinate for line
+    var newX; //New x coordinate for line
+    var newY; //New y coordinate for line
+
+    if (startColour != null) {
+        colour = startColour;
+    }
+
+
+    push();
+    colorMode(HSL);
+    for (var i = 0; i < 360; i++) {
+        stroke(colour % 360, 100, 50); //Colour from the HSL loop
+
+        newX = length * (cos(rotationAngle)) + oldX; //Calculate new x coordinate for line
+        newY = length * (sin(rotationAngle)) + oldY; //Calculate new y coordinate for line
+
+        line(oldX, oldY, newX, newY); //Draw line
+
+        oldX = newX; //Set the original x coordinate to the curren  t x coordinate
+        oldY = newY; //Set the original y coordinate to the current y coordinate
+        rotationAngle += step; //Find the actual rotation
+        length -= magnify; //Decrease the length of line
+        colour += 1; //Continue the HSL loop
+    }
+    pop();
+
+
+
+*/
