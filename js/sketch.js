@@ -71,10 +71,12 @@ function allCC(e) {
     let ratio = e.data[2] / 127
     switch (e.controller.number) {
         case CCSLIDER1:
+            size = 1;
             size = 100 * ratio;
             break;
         case CCSLIDER2:
-            stroke = 20 * ratio;
+            strokew = 1;
+            strokew = 20 * ratio;
             break;
         case CCSLIDER3:
             frameRate(50 * 0.5 * ratio)
@@ -132,17 +134,17 @@ function draw() {
         drawShape(random(width), random(height))
 
 
-    /*for (let i = 0; i < 200; i += 20) { /////////////////////////////
+    //for (let i = 0; i < 200; i += 20) { /////////////////////////////
     // Add 10 to the line's hue value during
     // each iteration.
     noFill();
     strokeWeight(2);
-    strokeColor = i + 10;
+    // strokeColor = i + 10;
 
-    stroke(strokeColor, 50, 60);
+    stroke(0, 50, 60);
 
-    bezier(xpos- i / 2, 0 + i, 410, 20, 440, 300, 240 - i / 16, 300 + i / 8);
-  }*/ // uncomment pls //////////////////
+    bezier(xpos+innerHeight * 0.75, 0 + i, 410, 80, 440, 300, 240 - i / 16, 300 + i / 8);
+  //} // uncomment pls //////////////////
 
 
 
